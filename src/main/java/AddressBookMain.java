@@ -17,7 +17,8 @@ public class AddressBookMain {
             System.out.println("3. Search Person by City or State");
             System.out.println("4. View Persons by City or State");
             System.out.println("5. Count Persons by City or State");
-            System.out.println("6. Exit");
+            System.out.println("6. Sort Contacts");
+            System.out.println("7. Exit");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -86,6 +87,29 @@ public class AddressBookMain {
                     System.out.println("Total Persons: " + count);
                     break;
                 case 6:
+                    System.out.println("Sort by: 1. Name 2. City 3. State 4. Zip");
+                    int sortChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    addressBookMap.values().stream()
+                            .flatMap(ab -> ab.getContacts().stream())
+                            .sorted((c1, c2) -> {
+                                switch (sortChoice) {
+                                    case 1:
+                                        return c1.getFirstName().compareToIgnoreCase(c2.getFirstName());
+                                    case 2:
+                                        return c1.getCity().compareToIgnoreCase(c2.getCity());
+                                    case 3:
+                                        return c1.getState().compareToIgnoreCase(c2.getState());
+                                    case 4:
+                                        return c1.getZip().compareToIgnoreCase(c2.getZip());
+                                    default:
+                                        return 0;
+                                }
+                            })
+                            .forEach(System.out::println);
+                    break;
+                case 7:
                     exit = true;
                     System.out.println("Exiting Address Book Program.");
                     break;
