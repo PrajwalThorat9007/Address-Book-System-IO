@@ -107,4 +107,35 @@ public class AddressBook {
         }
         System.out.println("Contact not found.");
     }
+
+    public void writeData() {
+        try {
+            java.nio.file.Path path = java.nio.file.Paths.get("addressbook.txt");
+            StringBuilder sb = new StringBuilder();
+            for (Contact contact : contacts) {
+                sb.append(contact.toString()).append("\n");
+            }
+            java.nio.file.Files.write(path, sb.toString().getBytes());
+            System.out.println("Address Book data saved successfully to file!");
+        } catch (java.io.IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    public void readData() {
+        try {
+            java.nio.file.Path path = java.nio.file.Paths.get("addressbook.txt");
+            if (java.nio.file.Files.exists(path)) {
+                java.util.List<String> lines = java.nio.file.Files.readAllLines(path);
+                System.out.println("\n--- Address Book File Content ---");
+                for (String line : lines) {
+                    System.out.println(line);
+                }
+            } else {
+                System.out.println("File does not exist. Please save data first.");
+            }
+        } catch (java.io.IOException e) {
+            System.out.println("Error reading from file: " + e.getMessage());
+        }
+    }
 }

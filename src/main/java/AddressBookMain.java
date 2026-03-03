@@ -128,7 +128,9 @@ public class AddressBookMain {
             System.out.println("2. Display Contacts");
             System.out.println("3. Edit Contact");
             System.out.println("4. Delete Contact");
-            System.out.println("5. Back to Main Menu");
+            System.out.println("5. Save to File");
+            System.out.println("6. Read from File");
+            System.out.println("7. Back to Main Menu");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -146,6 +148,12 @@ public class AddressBookMain {
                     addressBook.deleteContact(scanner);
                     break;
                 case 5:
+                    addressBook.writeData();
+                    break;
+                case 6:
+                    addressBook.readData();
+                    break;
+                case 7:
                     exit = true;
                     break;
                 default:
