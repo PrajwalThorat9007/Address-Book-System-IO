@@ -11,7 +11,8 @@ public class AddressBookMain {
             System.out.println("\nChoose an option:");
             System.out.println("1. Add Contact");
             System.out.println("2. Display Contacts");
-            System.out.println("3. Exit");
+            System.out.println("3. Edit Contact");
+            System.out.println("4. Exit");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -23,6 +24,9 @@ public class AddressBookMain {
                     addressBook.displayContacts();
                     break;
                 case 3:
+                    addressBook.editContact(scanner);
+                    break;
+                case 4:
                     exit = true;
                     System.out.println("Exiting Address Book Program.");
                     break;
