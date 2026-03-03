@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -14,7 +15,9 @@ public class AddressBookMain {
             System.out.println("1. Create New Address Book");
             System.out.println("2. Access Address Book");
             System.out.println("3. Search Person by City or State");
-            System.out.println("4. Exit");
+            System.out.println("4. View Persons by City or State");
+            System.out.println("5. Count Persons by City or State");
+            System.out.println("6. Exit");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -52,6 +55,37 @@ public class AddressBookMain {
                             .forEach(System.out::println);
                     break;
                 case 4:
+                    System.out.println("View by: 1. City 2. State");
+                    int viewChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Map<String, List<Contact>> viewMap = new HashMap<>();
+                    addressBookMap.values().forEach(ab -> ab.getContacts().forEach(contact -> {
+                        String key = (viewChoice == 1) ? contact.getCity() : contact.getState();
+                        viewMap.computeIfAbsent(key, k -> new java.util.ArrayList<>()).add(contact);
+                    }));
+
+                    viewMap.forEach((key, list) -> {
+                        System.out.println("\n--- " + key + " ---");
+                        list.forEach(System.out::println);
+                    });
+                    break;
+                case 5:
+                    System.out.println("Count by: 1. City 2. State");
+                    int countChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Enter location name:");
+                    String countLocation = scanner.nextLine();
+
+                    long count = addressBookMap.values().stream()
+                            .flatMap(ab -> ab.getContacts().stream())
+                            .filter(contact -> (countChoice == 1 && contact.getCity().equalsIgnoreCase(countLocation))
+                                    ||
+                                    (countChoice == 2 && contact.getState().equalsIgnoreCase(countLocation)))
+                            .count();
+                    System.out.println("Total Persons: " + count);
+                    break;
+                case 6:
                     exit = true;
                     System.out.println("Exiting Address Book Program.");
                     break;
