@@ -13,7 +13,8 @@ public class AddressBookMain {
             System.out.println("\n--- Main Menu ---");
             System.out.println("1. Create New Address Book");
             System.out.println("2. Access Address Book");
-            System.out.println("3. Exit");
+            System.out.println("3. Search Person by City or State");
+            System.out.println("4. Exit");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -38,6 +39,19 @@ public class AddressBookMain {
                     }
                     break;
                 case 3:
+                    System.out.println("Search by: 1. City 2. State");
+                    int searchChoice = scanner.nextInt();
+                    scanner.nextLine(); // consume newline
+                    System.out.println("Enter location name:");
+                    String location = scanner.nextLine();
+
+                    addressBookMap.values().stream()
+                            .flatMap(ab -> ab.getContacts().stream())
+                            .filter(contact -> (searchChoice == 1 && contact.getCity().equalsIgnoreCase(location)) ||
+                                    (searchChoice == 2 && contact.getState().equalsIgnoreCase(location)))
+                            .forEach(System.out::println);
+                    break;
+                case 4:
                     exit = true;
                     System.out.println("Exiting Address Book Program.");
                     break;

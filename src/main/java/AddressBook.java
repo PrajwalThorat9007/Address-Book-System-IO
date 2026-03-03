@@ -9,6 +9,10 @@ public class AddressBook {
         this.contacts = new ArrayList<>();
     }
 
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
     public void addContact(Scanner scanner) {
         boolean addMore = true;
         while (addMore) {
