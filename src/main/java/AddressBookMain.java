@@ -1,19 +1,62 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program");
         Scanner scanner = new Scanner(System.in);
-        AddressBook addressBook = new AddressBook();
+        Map<String, AddressBook> addressBookMap = new HashMap<>();
 
         boolean exit = false;
         while (!exit) {
-            System.out.println("\nChoose an option:");
+            System.out.println("\n--- Main Menu ---");
+            System.out.println("1. Create New Address Book");
+            System.out.println("2. Access Address Book");
+            System.out.println("3. Exit");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter name for new Address Book:");
+                    String name = scanner.nextLine();
+                    if (addressBookMap.containsKey(name)) {
+                        System.out.println("Address Book already exists.");
+                    } else {
+                        addressBookMap.put(name, new AddressBook());
+                        System.out.println("Address Book '" + name + "' created successfully.");
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter name of Address Book to access:");
+                    String accessName = scanner.nextLine();
+                    if (addressBookMap.containsKey(accessName)) {
+                        manageAddressBook(addressBookMap.get(accessName), scanner);
+                    } else {
+                        System.out.println("Address Book not found.");
+                    }
+                    break;
+                case 3:
+                    exit = true;
+                    System.out.println("Exiting Address Book Program.");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        scanner.close();
+    }
+
+    private static void manageAddressBook(AddressBook addressBook, Scanner scanner) {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\n--- Address Book Menu ---");
             System.out.println("1. Add Contact");
             System.out.println("2. Display Contacts");
             System.out.println("3. Edit Contact");
             System.out.println("4. Delete Contact");
-            System.out.println("5. Exit");
+            System.out.println("5. Back to Main Menu");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
@@ -32,12 +75,10 @@ public class AddressBookMain {
                     break;
                 case 5:
                     exit = true;
-                    System.out.println("Exiting Address Book Program.");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-        scanner.close();
     }
 }
